@@ -1,0 +1,6 @@
+server:
+  port: ${port:8081}
+
+logging:
+  level:
+    com.tvelykyy: DEBUG
