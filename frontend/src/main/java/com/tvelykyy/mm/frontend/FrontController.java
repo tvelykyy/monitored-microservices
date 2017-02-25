@@ -19,11 +19,13 @@ public class FrontController {
     @GetMapping("/home")
     @ResponseBody
     public String home() {
-        LOG.info("handling /home request");
+        LOG.debug("Handling request");
         ResponseEntity<Integer> response =
-            restTemplate.exchange("http://localhost:8081/process", HttpMethod.POST, null, Integer.class);
+            restTemplate.exchange("http://worker/process", HttpMethod.POST, null, Integer.class);
 
-        return String.format("Requested processed in %s ms", response.getBody().toString());
+        String message = String.format("Requested processed in %s ms", response.getBody().toString());
+        LOG.info(message);
+        return message;
     }
 
     @Autowired
