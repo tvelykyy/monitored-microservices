@@ -5,7 +5,7 @@ VOLUME /tmp
 ENV APP_HOME /opt/app
 RUN mkdir -p $APP_HOME
 
-ADD frontend-*.jar $APP_HOME/app.jar
+ADD worker-*.jar $APP_HOME/app.jar
 
 WORKDIR $APP_HOME
 RUN sh -c 'touch app.jar'

@@ -1,0 +1,35 @@
+version: '2'
+services:
+  frontend:
+    image: mm/frontend
+    ports:
+      - "8080:8080"
+    links:
+      - worker1:worker1
+      - worker2:worker2
+      - eureka:eureka
+
+  worker1:
+    image: mm/worker
+    ports:
+      - "8081:8081"
+    environment:
+      - port=8081
+      - hostname=worker1
+    links:
+      - eureka:eureka
+
+  worker2:
+      image: mm/worker
+      ports:
+        - "8082:8082"
+      environment:
+        - port=8082
+        - hostname=worker2
+      links:
+        - eureka:eureka
+
+  eureka:
+    image: mm/eureka
+    ports:
+      - "8761:8761"
