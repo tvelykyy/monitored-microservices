@@ -1,5 +1,19 @@
 version: '2'
 services:
+  eureka:
+    image: mm/eureka
+    ports:
+      - "8761:8761"
+
+  graphite:
+    image: hopsoft/graphite-statsd
+    ports:
+      - "9000:80"
+      - "2003-2004:2003-2004"
+      - "2023-2024:2023-2024"
+      - "8125:8125/udp"
+      - "8126:8126"
+
   frontend:
     image: mm/frontend
     ports:
@@ -8,6 +22,8 @@ services:
       - worker1:worker1
       - worker2:worker2
       - eureka:eureka
+    depends_on:
+      - eureka
 
   worker1:
     image: mm/worker
@@ -16,20 +32,27 @@ services:
     environment:
       - port=8081
       - hostname=worker1
+      - graphite=graphite
+      - graphitePort=2003
     links:
       - eureka:eureka
+      - graphite:graphite
+    depends_on:
+      - eureka
+      - graphite
 
   worker2:
-      image: mm/worker
-      ports:
-        - "8082:8082"
-      environment:
-        - port=8082
-        - hostname=worker2
-      links:
-        - eureka:eureka
-
-  eureka:
-    image: mm/eureka
+    image: mm/worker
     ports:
-      - "8761:8761"
+      - "8082:8082"
+    environment:
+      - port=8082
+      - hostname=worker2
+      - graphite=graphite
+      - graphitePort=2003
+    links:
+      - eureka:eureka
+      - graphite:graphite
+    depends_on:
+      - eureka
+      - graphite

@@ -1,5 +1,8 @@
 package com.tvelykyy.mm.worker;
 
+import com.codahale.metrics.annotation.ExceptionMetered;
+import com.codahale.metrics.annotation.Timed;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -14,6 +17,8 @@ public class WorkerController {
 
     @PostMapping("process")
     @ResponseBody
+    @Timed
+    @ExceptionMetered
     public int process() {
         LOG.info("Processing heavy job...");
         int waitMilliseconds = calculateWaitingTime();

@@ -13,6 +13,11 @@ eureka:
     service-url:
       defaultZone: ${eureka:http://eureka:8761}/eureka
 
+graphite:
+  host: ${graphite:localhost}
+  port: ${graphitePort:2003}
+  amount.of.time.between.polls: 10000
+
 logging:
   level:
     com.tvelykyy: DEBUG
